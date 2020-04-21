@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: build-app
+spec:
+  inputs:
+    params:
+      - name: contextDir
+        default: .
+        description: the context dir
+    resources:
+    - name: source
+      type: git
+  steps:
+    - name: maven-build
+      image: docker.io/maven-3.6.3-jdk-8-slim
+      command: 
+        - mvn
+      args: 
+        - -DskipTests
+        - clean
+        - install
+      workingDir: "/workspace/source/$(inputs.params.contextDir)"

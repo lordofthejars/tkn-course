@@ -1,0 +1,54 @@
+show build-app 
+    - (name of git resource is the directory where cloned)
+    - show repo (rhd/tekton-tutorial/apps/greeter/java [quarkus|SB])
+    - workingDir
+    - How to set git info, ... Tekton is declarative (build-resource)
+
+k apply
+
+tkn res ls
+tkn task ls
+
+// triggers
+tkn tr ls
+
+tkn task start build-app --param contextDir='apps/greeter/java/springboot' --inputresource source='git-source' --showlog
+
+t tr ls
+tkn tr describe <> 
+
+See that the maven build failed and fix it: docker.io/maven:3.6.3-jdk-8-slim
+
+tkn tr delete <> --all
+
+k apply 
+tkn task start build-app --param contextDir='apps/greeter/java/springboot' --inputresource source='git-source' --showlog
+
+k get pods (2)
+
+k get pods <> -o yaml | yq r - 'spec.containers[*].name'
+git source comes bc the resource automatically adds the git task
+
+// build container
+
+k delete yaml
+tkn tr delete --all
+
+[show]
+
+build-push-app
+build-push-resource
+
+k create secret docker-registry quayio --docker-server=quay.io --docker-username=$QUAY_USERNAME --docker-password=$QUAY_PASSWORD
+
+k create sa pipeline
+k edit sa pipeline
+
+- name: quayio
+
+k apply build-push
+k apply build-push-resource
+
+tkn res ls
+
+tkn task start build-app --param contextDir='apps/greeter/java/springboot' --inputresource source='git-source' --outputresource builtImage='tekton-tutorial-greeter-image' --serviceaccount pipeline --showlog

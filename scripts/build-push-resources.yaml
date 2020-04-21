@@ -1,0 +1,20 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: git-source
+spec:
+  type: git
+  params:
+    - name: url
+      value: https://github.com/redhat-developer-demos/tekton-tutorial
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: tekton-tutorial-greeter-image
+spec:
+  type: image
+  params:
+    - name: url
+      value: quay.io/rhdevelopers/tekton-tutorial-greeter:springboot

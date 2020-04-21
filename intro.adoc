@@ -1,0 +1,41 @@
+slides
+
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: helloworld
+spec:
+  steps:
+    - name: sayhello
+      image: busybox
+      command: 
+        - echo
+      args: 
+        - Hello World
+
+k get pods
+k apply -f file
+
+t --help
+t task list
+
+t task start helloworld --showlog
+t task logs helloworld
+
+k get events
+k get pods
+
+k get pods helloworld-run .... -o yaml
+[Contaienr per step]
+
+apiVersion: tekton.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: echo-hello-world-run
+spec:
+  taskRef:
+    name: helloworld
+
+tkn taskrun list
+tkn taskrun logs echo-hello-world-run
+

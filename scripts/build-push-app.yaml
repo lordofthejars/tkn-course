@@ -1,0 +1,48 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: build-app
+spec:
+  inputs:
+    params:
+      - name: contextDir
+        default: .
+        description: the context dir
+    resources:
+    - name: source
+      type: git
+  outputs:
+    resources:
+    - name: builtImage
+      type: image
+  steps:
+    - name: maven-build
+      image: docker.io/maven:3.6.3-jdk-8-slim
+      command: 
+        - mvn
+      args: 
+        - -DskipTests
+        - clean
+        - install
+      workingDir: "/workspace/source/$(inputs.params.contextDir)"
+
+    - name: build-and-push-image
+      image: quay.io/buildah/stable
+      script: |
+        #!/usr/bin/env bash
+        buildah bud --layers -t $DESTINATION_IMAGE $CONTEXT_DIR
+        buildah push $DESTINATION_IMAGE docker://$DESTINATION_IMAGE
+      env:
+        - name: DESTINATION_IMAGE
+          value: "$(outputs.resources.builtImage.url)"
+        - name: CONTEXT_DIR
+          value: "/workspace/source/$(inputs.params.contextDir)"
+      securityContext:
+        runAsUser: 0
+        privileged: true
+      volumeMounts:
+        - name: varlibc
+          mountPath: /var/lib/containers
+  volumes:
+    - name: varlibc
+      emptyDir: {}

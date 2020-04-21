@@ -1,0 +1,12 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: helloworld
+spec:
+  steps:
+    - name: sayhello
+      image: busybox
+      command: 
+        - echo
+      args: 
+        - Hello World

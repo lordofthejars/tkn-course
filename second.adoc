@@ -1,0 +1,10 @@
+tektoncd/catalog
+
+install kubectl task ()
+
+kubectl apply -n -f https://raw.githubusercontent.com/tektoncd/catalog/master/kubectl/kubectl-deploy.yaml
+kubectl apply -n -f https://raw.githubusercontent.com/tektoncd/catalog/master/kubectl/clusterrolebinding.yaml
+
+tkn task ls
+
+
