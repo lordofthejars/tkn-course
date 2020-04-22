@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: kubectl-deploy
+spec:
+  inputs:
+    resources:
+      - name: source
+        type: git
+    params:
+    - name: contextDir
+      default: .
+  steps:
+  - name: kubeconfig
+    image: quay.io/rhdevelopers/tutorial-tools:0.0.3
+    command: ["kubectl"]
+    args:
+      - apply
+      - -f
+      - /workspace/source/$(inputs.params.contextDir)
+      

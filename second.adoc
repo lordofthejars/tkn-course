@@ -2,9 +2,18 @@ tektoncd/catalog
 
 install kubectl task ()
 
-kubectl apply -n -f https://raw.githubusercontent.com/tektoncd/catalog/master/kubectl/kubectl-deploy.yaml
-kubectl apply -n -f https://raw.githubusercontent.com/tektoncd/catalog/master/kubectl/clusterrolebinding.yaml
+kubectl apply -n alex-demos-tkn -f scripts/pipeline-sa-role.yaml
+k apply kubectl-deploy
 
 tkn task ls
 
+show service-deployment
+
+tkn res ls
+
+k apply service-deploy
+
+t pipeline ls
+
+tkn pipeline start service-deploy --resource="appSource=git-source" --resource="appImage=tekton-tutorial-greeter-image" --serviceaccount='pipeline' --showlog
 

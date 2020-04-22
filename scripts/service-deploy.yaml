@@ -6,7 +6,31 @@ spec:
   resources:
     - name: appSource
       type: git
+    - name: appImage
+      type: image
   tasks:
-    - name: taskName
+    - name: build-app
       taskRef:
         name: build-app
+      params:
+        - name: contextDir
+          value: apps/greeter/java/springboot
+      resources:
+        inputs:
+          - name: source
+            resource: appSource
+        outputs:
+          - name: builtImage
+            resource: appImage
+    - name: kube-deploy
+      taskRef:
+        name: kubectl-deploy
+      runAfter:
+        - build-app
+      resources:
+        inputs:
+          - name: source
+            resource: appSource
+      params:
+        - name: contextDir
+          value: apps/greeter/java/springboot/k8s
