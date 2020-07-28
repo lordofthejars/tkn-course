@@ -1,19 +1,19 @@
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: build-app
 spec:
-  inputs:
-    params:
-      - name: contextDir
-        default: .
-        description: the context dir
-    resources:
-    - name: source
-      type: git
+  params:
+    - name: contextDir
+      description: the context dir within source
+      default: .
+  resources:
+    inputs:
+      - name: source
+        type: git
   steps:
     - name: maven-build
-      image: docker.io/maven-3.6.3-jdk-8-slim
+      image: docker.io/maven:3.6-jdk-8-slim
       command: 
         - mvn
       args: 

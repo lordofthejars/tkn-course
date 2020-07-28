@@ -4,7 +4,7 @@ show build-app
     - workingDir
     - How to set git info, ... Tekton is declarative (build-resource)
 
-k apply
+k apply build-resources & build-app
 
 tkn res ls
 tkn task ls
