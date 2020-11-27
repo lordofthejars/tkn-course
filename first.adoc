@@ -12,7 +12,7 @@ tkn task ls
 // triggers
 tkn tr ls
 
-tkn task start build-app --param contextDir='apps/greeter/java/springboot' --inputresource source='git-source' --showlog
+tkn task start build-app --param contextDir='springboot' --inputresource source='git-source' --showlog
 
 t tr ls
 tkn tr describe <> 
@@ -22,7 +22,7 @@ See that the maven build failed and fix it: docker.io/maven:3.6.3-jdk-8-slim
 tkn tr delete <> --all
 
 k apply 
-tkn task start build-app --param contextDir='apps/greeter/java/springboot' --inputresource source='git-source' --showlog
+tkn task start build-app --param contextDir='springboot' --inputresource source='git-source' --showlog
 
 k get pods (2)
 
@@ -51,4 +51,4 @@ k apply build-push-resource
 
 tkn res ls
 
-tkn task start build-app --param contextDir='apps/greeter/java/springboot' --inputresource source='git-source' --outputresource builtImage='tekton-tutorial-greeter-image' --serviceaccount pipeline --showlog
+tkn task start build-app --param contextDir='springboot' --inputresource source='git-source' --outputresource builtImage='tekton-tutorial-greeter-image' --serviceaccount pipeline --showlog

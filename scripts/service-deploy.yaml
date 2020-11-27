@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: service-deploy
@@ -14,7 +14,7 @@ spec:
         name: build-app
       params:
         - name: contextDir
-          value: apps/greeter/java/springboot
+          value: springboot
       resources:
         inputs:
           - name: source
@@ -33,4 +33,4 @@ spec:
             resource: appSource
       params:
         - name: contextDir
-          value: apps/greeter/java/springboot/k8s
+          value: springboot/k8s
