@@ -7,7 +7,7 @@ show build-app
 k apply build-resources & build-app
 
 tkn res ls
-tkn task ls
+tkn task ls  
 
 // triggers
 tkn tr ls
